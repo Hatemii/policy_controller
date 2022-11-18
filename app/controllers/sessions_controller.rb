@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
         session: session[:user_id]
       }
     else
-      render json: "email or password are incorrect"
+      render json: "email or password are incorrect", status: 500
     end
   end
 
