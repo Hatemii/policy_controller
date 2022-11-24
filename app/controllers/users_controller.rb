@@ -1,13 +1,14 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!, except: %i[show, create]
+  before_action :authenticate_user!, except: %i[create]
 
   def index
     render json: User.all
   end
 
   def show
+    # show if user is admin or self_record 
     user = User.find(params[:id])
-    authorize! user, to: :show?
+    authorize! user, to: :show? # user is record in this case
     
     render json: user
   end
@@ -23,6 +24,7 @@ class UsersController < ApplicationController
   end
 
   def update
+    # update if user is admin or self_record
     user = User.find(params[:id])
     authorize! current_user, to: :update?
 
