@@ -2,7 +2,15 @@ class UsersController < ApplicationController
   before_action :authenticate_user!, except: %i[create]
 
   def index
-    render json: User.all
+    users = authorized_scope(User.all)
+    render json: users
+  end
+
+  def company_users
+    return render json: "company id is missing" unless params[:company_id]
+    users = authorized_scope(User.all, type: :company_users, scope_options: { company_id: params[:company_id] })
+    
+    render json: users
   end
 
   def show
